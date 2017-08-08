@@ -5,55 +5,58 @@
  *
  */
 
-(function ($) {
-	'use strict';
+( function( $ ) {
+	let objectFit = '';
 
-	var objectFit = '';
-
-	// Can replace this with modernizr check if available
-	if('object-fit' in document.body.style) {
+	if ( 'object-fit' in document.body.style ) {
 		objectFit = true;
 	}
 
-	var elems = {
-		imgfit: document.querySelectorAll('.img-fit')
+	const elems = {imgfit: document.querySelectorAll( '.img-fit' )};
+
+	/**
+	 * Has Class helper function.
+	 * @param {object} el element object
+	 * @param {string} cls desired class
+	 * @returns {boolean} true if has class
+	 */
+	const msHasClass = function( el, cls ) {
+		return el.className &&
+			new RegExp( `(\\s|^)${cls}(\\s|$)` ).test( el.className );
 	};
 
-	var msHasClass = function( el, cls ) {
-		return el.className && new RegExp( '(\\s|^)' + cls + '(\\s|$)' ).test( el.className );
-	};
+	/**
+	 * Fallback for object-fit styles.
+	 * Adds background image to container if object-fit not supported.
+	 * Uses data attribute value 'data-fallback-img' to place background image on parent.
+	 * @returns {void}
+	 */
+	const imgFit = function() {
+		if ( !objectFit ) {
+			const elements = elems.imgfit;
 
-	var imgFit = function () {
-
-		if( !objectFit ) {
-			var elements = elems.imgfit;
-
-			for (var i = 0; i < elements.length; i++) {
-				if ( msHasClass(elements[i], 'compat-object-fit') ) {
+			for ( let i = 0; i < elements.length; i++ ) {
+				if ( msHasClass( elements[i], 'compat-object-fit' ) ) {
 					// do nothing
 				} else {
-					var el = elements[i],
-						fbimg = $( elements[i]).find('img').attr('data-fallback-img'),
-						fbimgsm = $( elements[i]).find('img').attr('data-fallback-img-sm'),
-						fbmq = $( elements[i]).find('img').attr('data-mq');
+					const el = elements[i];
+					const fbimg = $( elements[i] ).find( 'img' ).attr( 'data-fallback-img' );
+					const fbimgsm = $( elements[i] ).find( 'img' ).attr( 'data-fallback-img-sm' );
+					const fbmq = $( elements[i] ).find( 'img' ).attr( 'data-mq' );
 
-					if (fbimgsm && fbimgsm !== '' && window.matchMedia( '(max-width: ' + fbmq + ')' ).matches) {
-						el
-							.classList
-							.add('compat-object-fit');
-						el.style.backgroundImage = 'url( "' + fbimgsm + '" )';
-					} else if (fbimg !== '') {
-						el
-							.classList
-							.add('compat-object-fit');
-						el.style.backgroundImage = 'url( "' + fbimg + '" )';
+					if ( '' !== fbimgsm && fbimgsm &&
+						window.matchMedia( `(max-width: ${fbmq
+							})` ).matches ) {
+						el.classList.add( 'compat-object-fit' );
+						el.style.backgroundImage = `url( "${fbimgsm}" )`;
+					} else if ( '' !== fbimg ) {
+						el.classList.add( 'compat-object-fit' );
+						el.style.backgroundImage = `url( "${fbimg}" )`;
 					}
 				}
-
 			}
 		}
 	};
 
 	imgFit();
-
-})(jQuery, document );
+} )( jQuery, document );

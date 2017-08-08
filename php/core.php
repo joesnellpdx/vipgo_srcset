@@ -2,15 +2,10 @@
 
 
 /**
-* Adds custom image sizes to WP based on the needs of the theme.
+ * Adds custom image sizes to WP based on the needs of the theme.
  *
- * Theme sizes are used in helper functions
-*
-* Reqires add_action
-*
-* @return void
-*/
-
+ * @return void
+ */
 function custom_image_sizes() {
 	// custom image sizes
 	add_image_size( 'thumbnail', 150, 150, true );
@@ -56,8 +51,8 @@ function custom_image_sizes() {
 	add_image_size( 'portrait-675x1200', 675, 1200, true );
 	add_image_size( 'portrait-900x1600', 900, 1600, true );
 	add_image_size( 'portrait-1350x2400', 1350, 2400, true );
-	add_image_size( 'portrait-1800x3200', 1800 , 3200, true );
-	add_image_size( 'portrait-2250x4000', 2250 , 4000, true );
+	add_image_size( 'portrait-1800x3200', 1800, 3200, true );
+	add_image_size( 'portrait-2250x4000', 2250, 4000, true );
 
 	// fit responsive image sizes image sizes -- image will resize to fit dimensions and maintain aspect ratio
 	add_image_size( 'fit-200x113', 200, 113 );
@@ -68,4 +63,22 @@ function custom_image_sizes() {
 	add_image_size( 'fit-2400x1350', 2400, 1350 );
 	add_image_size( 'fit-3200x1800', 3200, 1800 );
 	add_image_size( 'fit-4000x2250', 4000, 2250 );
+}
+
+/**
+ * Adds some of the custom image sizes into the names choose array.
+ *
+ * @param array $sizes The array or image size->names mapping.
+ *
+ * @return array The updated array of image size->names.
+ */
+function image_names( $sizes ) {
+	$sizes['landscape-400x225']  = __( 'Small Landscape', 'us-weekly' );
+	$sizes['landscape-1600x900'] = __( 'Large Landscape', 'us-weekly' );
+	$sizes['square-400x400']     = __( 'Small Square', 'us-weekly' );
+	$sizes['square-1600x1600']   = __( 'Large Square', 'us-weekly' );
+	$sizes['portrait-225x400']   = __( 'Small Portrait', 'us-weekly' );
+	$sizes['portrait-900x1600']  = __( 'Large Portrait', 'us-weekly' );
+
+	return $sizes;
 }
